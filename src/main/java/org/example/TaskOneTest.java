@@ -1,11 +1,11 @@
 package org.example;
 
-import org.example.client.Client;
-import org.example.client.Handler;
-import org.example.client.impl.ClientTestImpl;
-import org.example.client.impl.HandlerImpl;
+import org.example.taskone.client.Client;
+import org.example.taskone.client.Handler;
+import org.example.taskone.client.impl.ClientTestImpl;
+import org.example.taskone.client.impl.HandlerImpl;
 
-public class Main {
+public class TaskOneTest {
     public static void main(String[] args) {
 
         Client client = new ClientTestImpl();

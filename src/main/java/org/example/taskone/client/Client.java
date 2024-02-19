@@ -1,6 +1,6 @@
-package org.example.client;
+package org.example.taskone.client;
 
-import org.example.client.response.Response;
+import org.example.taskone.client.response.Response;
 
 public interface Client {
     //блокирующий вызов сервиса 1 для получения статуса заявки

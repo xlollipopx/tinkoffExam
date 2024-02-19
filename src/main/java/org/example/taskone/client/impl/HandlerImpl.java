@@ -1,9 +1,9 @@
-package org.example.client.impl;
+package org.example.taskone.client.impl;
 
-import org.example.client.Client;
-import org.example.client.Handler;
-import org.example.client.response.ApplicationStatusResponse;
-import org.example.client.response.Response;
+import org.example.taskone.client.Client;
+import org.example.taskone.client.Handler;
+import org.example.taskone.client.response.ApplicationStatusResponse;
+import org.example.taskone.client.response.Response;
 
 import java.time.Duration;
 import java.time.Instant;

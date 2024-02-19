@@ -1,4 +1,4 @@
-package org.example.client.response;
+package org.example.taskone.client.response;
 import java.time.Duration;
 
 

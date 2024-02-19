@@ -1,4 +1,4 @@
-package org.example.client.response;
+package org.example.taskone.client.response;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
