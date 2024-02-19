@@ -48,6 +48,7 @@ public class HandlerImpl implements Handler {
                         CompletableFuture.delayedExecutor(retryAfter.delay().get(TimeUnit.SECONDS.toChronoUnit()), TimeUnit.SECONDS);
                 CompletableFuture<Response> statusRetryFuture;
                 retries++;
+
                 if (statusOneFuture.isDone()) {
                     statusRetryFuture = CompletableFuture.supplyAsync(() -> client.getApplicationStatus1(id), delayed);
                     return performOperation(id, statusRetryFuture, statusTwoFuture);
