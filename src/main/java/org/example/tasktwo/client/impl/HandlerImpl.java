@@ -32,8 +32,8 @@ public class HandlerImpl implements Handler {
     @Override
     public void performOperation() {
         Event event = client.readData();
-        event.recipients()
-                .forEach(r -> CompletableFuture.supplyAsync(() -> client.sendData(r, event.payload()))
+        List<CompletableFuture<Result>> results = event.recipients().
+                stream().map(r -> CompletableFuture.supplyAsync(() -> client.sendData(r, event.payload()))
                         .whenCompleteAsync(
                                 (res, error) -> {
                                     if (error != null || res == Result.REJECTED) {
@@ -41,20 +41,23 @@ public class HandlerImpl implements Handler {
                                     } else {
                                         System.out.println("Node " + r.datacenter() + " received the message.");
                                     }
-                                }).join());
+                                })).toList();
+
+        results.forEach(CompletableFuture::join);
     }
 
     private void retry(Address address, Payload payload) {
-        CompletableFuture<Result> retryFuture = CompletableFuture.supplyAsync(() -> client.sendData(address, payload), delayedExecutor);
         System.out.println("Node " + address.datacenter() + " rejected message, retry in " + timeout().getSeconds() + " seconds.");
-        retryFuture.whenComplete(
-                (res, error) -> {
-                    if (error != null || res == Result.REJECTED) {
-                        retry(address, payload);
-                    } else {
-                        System.out.println("Node " + address.datacenter() + " received the message.");
-                    }
-                });
+        CompletableFuture<Result> retryFuture = CompletableFuture.supplyAsync(() -> client.sendData(address, payload), delayedExecutor)
+                .whenComplete(
+                        (res, error) -> {
+                            if (error != null || res == Result.REJECTED) {
+                                retry(address, payload);
+                            } else {
+                                System.out.println("Node " + address.datacenter() + " received the message.");
+                            }
+                        });
+
         retryFuture.join();
     }
 
